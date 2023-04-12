@@ -2,6 +2,7 @@ import { User } from '@/pages/type/user.type';
 import { useRouter } from 'next/router';
 import  { useState } from 'react';
 import Cookies from 'js-cookie';
+import TokenService from '@/service/token.service';
 
 
 const Signup = () => {
@@ -19,8 +20,7 @@ const Signup = () => {
                 )
         })
         const data = await res.json();
-        localStorage.setItem('token', data.token);
-    }
+        }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = e.target;
@@ -30,7 +30,7 @@ const Signup = () => {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         createUser();
-        router.push('/admin');
+        router.push('/admin/connection/signin');
     }
 
     console.log("user", user);
@@ -48,8 +48,7 @@ const Signup = () => {
                 <input type="text" name="password" id="password" onChange={handleChange}/>
                 <label htmlFor="adress">Adress</label>
                 <input type="text" name="adress" id="adress" onChange={handleChange}/>
-                {/* <label htmlFor="city">Admin</label>
-                <input type="text" name="is_admin" id="is_admin" onChange={handleChange}/> */}
+               
                 <button type="submit">Signup</button>
             </form>
         </div>

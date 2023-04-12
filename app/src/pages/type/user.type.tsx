@@ -6,6 +6,6 @@ export interface User {
     password: string;
     email: string;
     adress: string;
-    role:'user ' | 'admin' ;
+    role:'user' | 'admin' ;
     orders: Orders[];
 }

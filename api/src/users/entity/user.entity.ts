@@ -20,7 +20,6 @@ export class UserEntity {
     adress: string;
 
     @Column({type : 'enum' , enum : ['user', 'admin'] ,nullable : true })
-   // mets admin defaulte 'user'
     role:'user' | 'admin' = 'user';
 
     @OneToMany(() => OrderEntity, (order) => order.user_id)

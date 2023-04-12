@@ -38,13 +38,13 @@ const Products = ({product}:{product: Product}) => {
         <div>
             <form onSubmit={handleSubmit}>
             <label htmlFor="name">Name</label>
-                <input type="text" name="name" id="name" onChange={handleChange}  value={product.name || ""}/>
+                <input type="text" name="name" id="name" onChange={handleChange}  placeholder={product.name || ""}/>
                 <label htmlFor="description">Description</label>
-                <input type="text" name="description" id="description" onChange={handleChange} value={product.description || ""}/>
+                <input type="text" name="description" id="description" onChange={handleChange} placeholder={product.description || ""}/>
                 <label htmlFor="price">Price</label>
                 <input type="text" name="price" id="price" onChange={handleChange} value={product.price || ""}/>
                 <label htmlFor="img">Image</label>
-                <input type="text" name="img" id="img" onChange={handleChange} value={product.img || ""}/>
+                <input type="text" name="img" id="img" onChange={handleChange} placeholder={product.img || ""}/>
                 <button type="submit">Créer</button>
             </form>
         </div>

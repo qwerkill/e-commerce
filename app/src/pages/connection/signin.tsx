@@ -1,50 +1,55 @@
-import  { useState } from 'react';
-import { User } from '../type/user.type';
+import { User } from "@/pages/type/user.type";
+import TokenService from "@/service/token.service";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useState } from "react";
 
-const Signin = () => {
+const Signup = () => {
     const [user, setUser] = useState<User[]>([])
+    const router = useRouter();
 
-
-    const createUser = async () => {
-        const res = await fetch('http://localhost:8000/api/users', {
+    const connectUser = async () => {
+        const res = await fetch('http://localhost:8000/api/auth/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
+                
             },
-            body: JSON.stringify({
-                is_admin: false,
-            })
+            body: JSON.stringify(user)
         })
         const data = await res.json();
-        console.log(data);
+        TokenService.setTokenInLocalStorage(data.access_token);
+        console.log(data.access_token);        
     }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = e.target;
-        setUser({...user, [name]: value})
+        setUser({...user, [name] : value})
     }
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        createUser();
+        connectUser();
+        router.push('/');
     }
+
 
 
 
     return ( 
         <div>
-            <h1>Signin</h1>
+            <h1>Signup</h1>
             <form onSubmit={handleSubmit}>
-                <label htmlFor="email">Email</label>
-                <input type="text" name="email" id="email" onChange={handleChange} />
-                <label htmlFor="username">Username</label>
-                <input type="text" name="username" id="username" onChange={handleChange} />
+                <label htmlFor="username">UserName</label>
+                <input type="text" name="username" id="username" onChange={handleChange}/>
                 <label htmlFor="password">Password</label>
                 <input type="text" name="password" id="password" onChange={handleChange}/>
-                <button type="submit">Signin</button>
+                <button type="submit">Signup</button>
             </form>
+        <Link href='/connection/signup'>    <button>S'inscrire</button></Link>
         </div>
+        
      );
 }
  
-export default Signin;
+export default Signup;

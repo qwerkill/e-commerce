@@ -1,26 +1,93 @@
 import Layout from "@/components/layout/Layout";
+import TokenService from "@/service/token.service";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-
 import { Orders } from "./type/orders.type";
+import { User } from "./type/user.type";
+import { userProfil } from "./type/userProfil.type";
 
 const Panier = () => {
     const [order, setOrder] = useState<Orders>({} as Orders)
+    const [userProfil, setUserProfil] = useState<userProfil>();
+    const [user, setUser] = useState<User>();
+    const router = useRouter();
+    
+    useEffect(() => {
+        getProfile();
+        const token = TokenService.getTokenFromLocalStorage();
+        if(!token){
+            router.push('/connection/signin');
+        }
+    }, []);
+    
+
+
+    const getProfile = async () => {
+        const token = TokenService.getTokenFromLocalStorage();
+        const res = await fetch('http://localhost:8000/api/auth/profile', {
+            method: 'GET',
+            headers:{
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+        })
+        const data = await res.json();
+        console.log(data);
+        setUserProfil(data);
+                }
+
+                useEffect(() => {
+                    getUser();
+                }, [userProfil])
+   
+        const getUser = async () => {
+                    if(userProfil ) {
+                        const token = TokenService.getTokenFromLocalStorage();
+                        const res = await fetch(`http://localhost:8000/api/users/${userProfil?.sub}`, {
+                            method: 'GET',
+                            headers:{
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${token}`
+                            },
+                        })
+                        const data = await res.json();
+                        setUser(data);
+                    } else {
+                        return console.log();
+                        
+                    }
+                }
+
+                console.log(user);
+                
+  
+    
 
     console.log(order)
+    useEffect(() => {
+        getOrders();
+    }, [user])
 
     const getOrders = async () => {
-        const response = await fetch("http://localhost:8000/api/orders/4");
-        const data = await response.json();
+        const token = TokenService.getTokenFromLocalStorage();
+        const res = await fetch(`http://localhost:8000/api/orders/${user?.orders[0].id}`, {
+            method: 'GET',
+            headers:{
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+        })
+        const data = await res.json();
         setOrder(data);
-    };
+    }
+
+
+    
 
     const orderItems = order.orderItems;
 
     
     
-    useEffect(() => {
-        getOrders();
-    }, []);
     
     const handleDelete = async (id: number) => {
         await fetch(`http://localhost:8000/api/orders_item/${id}`, {

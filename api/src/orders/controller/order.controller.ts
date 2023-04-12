@@ -9,9 +9,8 @@ import {
   Put,
   UseGuards,
 } from '@nestjs/common';
-import { AuthGuard } from 'src/auth/guard/auth.guard';
-import { JWTGuard } from 'src/auth/guard/jwt.guard';
-import { RolesGuard } from 'src/auth/guard/role.guard';
+import { Public } from 'src/auth/decorator/public.decorator';
+
 import { OrderCreateDTO, OrderUpdateDTO } from '../dto/order.dto';
 import {OrderService } from '../service/order.service';
 
@@ -30,7 +29,6 @@ export class OrderController {
   
   
 @Get()
-@UseGuards(AuthGuard)
   getAllOrders() {
     return this.orderService.getAllOrders();
   }
@@ -58,6 +56,12 @@ export class OrderController {
     @Body() data: OrderUpdateDTO,
   ) {
     return this.orderService.updateOrder(id, data);
+  }
+
+  @Public()
+  @Get('user/:id')
+  getOrderByUserID(id: number) {
+    return this.orderService.GetOrderByUserID(id);
   }
 
 

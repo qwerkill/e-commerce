@@ -1,4 +1,5 @@
 import { Orders } from '@/pages/type/orders.type';
+import TokenService from '@/service/token.service';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import header from '../../styles/Header.module.css'
@@ -11,8 +12,15 @@ const Header = () => {
     }, []);
 
     const getOrders = async () => {
-        const response = await fetch("http://localhost:8000/api/orders/5");
-        const data = await response.json();
+        const token = TokenService.getTokenFromLocalStorage();
+        const res = await fetch('http://localhost:8000/api/orders', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        const data = await res.json();
         setOrder(data);
     };
 

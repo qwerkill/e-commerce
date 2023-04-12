@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import footer from '../../styles/Footer.module.css'
 
 const Footer = () => {
@@ -6,6 +7,10 @@ const Footer = () => {
             <img className={footer.image} src="https://www.dynamicmarketing.eu/wp-content/uploads/2018/06/ecommerce.logo_.png" alt="" />
             <div className={footer.copyright}>
                 <p>copyright 2023-2050</p>
+            <Link href='/cgv'>
+               <p>CGV</p>
+            </Link>
+            
             </div>
         </footer>
      );

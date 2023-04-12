@@ -50,9 +50,18 @@ export class OrderService {
     return orderUpdate;
   }
 
-
+async GetOrderByUserID(id: number) {
+  return await this.orderRepository.createQueryBuilder('order')
+  .leftJoinAndSelect('order.user_id', 'user')
+  .leftJoinAndSelect('order.orderItems', 'order_item')
+  .leftJoinAndSelect('order_item.product_id', 'product')
+  .where('user.id = :id', { id })
+  .getMany();
+}
 
   async deleteOrder(id: number) {
     return await this.orderRepository.delete(id);
   }
+
+  
 }

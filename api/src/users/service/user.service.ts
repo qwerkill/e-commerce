@@ -26,7 +26,11 @@ export class UserService {
     }
   }
   async getOneUserById(id: number) {
-    return await this.userRepository.findOneBy({ id });
+    return await this.userRepository.createQueryBuilder('user')
+    .leftJoinAndSelect('user.orders', 'order')
+    .where('user.id = :id', { id })
+    .getOne();
+    
   }
 
   async findOne(username: string) {

@@ -14,7 +14,7 @@ export default function Home ({products, categories}: HomepageProps) {
   
   
   const lastProducts = products.slice(products.length - 3);
-  const lastCategory = categories.slice(categories.length - 2);
+  const lastCategory = categories.slice(categories.length - 3);
   return (
     <>
     <Layout>

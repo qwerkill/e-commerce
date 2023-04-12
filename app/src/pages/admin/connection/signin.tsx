@@ -8,7 +8,7 @@ const Signup = () => {
     const router = useRouter();
 
     const connectUser = async () => {
-        const res = await fetch('http://localhost:8000/api/users', {
+        const res = await fetch('http://localhost:8000/api/auth/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -17,9 +17,8 @@ const Signup = () => {
             body: JSON.stringify(user)
         })
         const data = await res.json();
-        TokenService.setTokenInLocalStorage(data.token);
-        console.log(data);
-        
+        TokenService.setTokenInLocalStorage(data.access_token);
+        console.log(data.access_token);        
     }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

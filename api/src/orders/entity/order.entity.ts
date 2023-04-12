@@ -10,7 +10,7 @@ export class OrderEntity {
   @Column({ enum: ['pending', 'completed'] } )
   status: 'pending' | 'completed';
 
-  @Column({ type: 'integer' })
+  @Column({ type: 'integer', nullable: true })
   amount: number;
 
   @ManyToOne(() => UserEntity, (user) => user.orders,{

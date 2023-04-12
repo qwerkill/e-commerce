@@ -9,7 +9,8 @@ export class OrderItemEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ type: 'integer'})
+    // null = true
+    @Column({ type: 'integer' })
     quantity: number;
 
     @ManyToOne(type => OrderEntity, order => order.orderItems, {
